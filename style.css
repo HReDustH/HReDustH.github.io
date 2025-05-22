@@ -1,0 +1,152 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: #000;
+}
+
+.background-carousel {
+  position: fixed;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-img-layer {
+  position: absolute;
+  left: 0; top: 0; width: 100%; height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  transition: opacity 1s linear;
+  will-change: opacity, background-position;
+}
+
+.vignette-mask {
+  pointer-events: none;
+  position: fixed;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  z-index: 5;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 60%,
+    rgba(0, 0, 0, 0) 82%,
+    rgba(0, 0, 0, 0.228) 100%
+  );
+}
+
+#balls-canvas {
+  position: fixed;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  z-index: 10;
+  display: block;
+  pointer-events: auto;
+}
+
+/* ==================== 卡片3D翻转 ==================== */
+.card {
+  perspective: 1200px;
+  width: 200px;
+  height: 300px;
+  position: fixed;
+  left: 50%;
+  top: 28%;
+  transform: translate(-50%, -50%);
+  z-index: 12;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.7s cubic-bezier(0.4,0.2,0.2,1.0);
+  transform-style: preserve-3d;
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0; left: 0;
+  backface-visibility: hidden;
+}
+
+.card-front img {
+  width: 100%;
+  position: absolute;
+  transition: 0.5s;
+}
+
+.cover {
+  z-index: 1;
+  bottom: 0;
+  border-radius: 15px;
+}
+
+.card:hover .cover {
+  box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.756);
+  transform: perspective(400px) rotateX(50deg);
+}
+
+.hero {
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.card:hover .hero {
+  opacity: 1;
+  transform: perspective(500px) translate3d(0, -30px, 50px);
+}
+
+.title {
+  bottom: 5px ;
+  z-index: 3;
+}
+
+.card:hover .title {
+  transform: perspective(500px) translate3d(0, -4px, 150px);
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-back img.extra {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: -10px;
+  object-fit: contain;    /* 等比缩放，保证图片完整 */
+  object-position: center;
+  border-radius: 10px;    /* 如果正面有圆角，可同步加圆角 */
+}
+
+
+/* 翻转激活 */
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* ==================== 其他自定义样式保留 ==================== */
+.new-image-container {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.new-image-container img {
+  width: 100%;
+  height: auto;
+}
